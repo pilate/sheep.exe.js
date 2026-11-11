@@ -1,6 +1,6 @@
 # sheep.exe.js
 
-The classic **Sheep.exe** desktop pet (*Screen Mate Poo* / "Stray Sheep", Fujitsu 1995) as a JavaScript library for web pages.
+The classic **Sheep.exe** desktop pet (*Screen Mate Poo*, Village Center, Inc., 1996, starring Poo from Tatsutoshi Nomura's *Stray Sheep*) as a JavaScript library for web pages.
 
 This is a port of the original 16-bit Windows binary, not a re-imagining:
 
@@ -125,4 +125,4 @@ All sheep share one timer per interval. Each tick, every sheep first reads the p
 
 ## Legal
 
-Screen Mate Poo / Sheep.exe, including its program, artwork and sounds, is © 1995 Fujitsu. The engine here is a translation of the original program's logic, and the assets are extracted from it, so the bundles are derivative works. `npm run extract` reads from **your own copy** of `Sheep.exe` (md5 `385e7f952873d00e52ed31d16a7d5c61`). `re/` holds disassembly and decompiler output generated from it. Make sure you have the rights before publishing any of this.
+Screen Mate Poo / Sheep.exe, including its program, artwork and sounds, is © 1996 Village Center, Inc. The *Stray Sheep* character is by Tatsutoshi Nomura. The engine here is a translation of the original program's logic, and the assets are extracted from it, so the bundles are derivative works. `npm run extract` reads from **your own copy** of `Sheep.exe` (md5 `385e7f952873d00e52ed31d16a7d5c61`). `re/` holds disassembly and decompiler output generated from it. Make sure you have the rights before publishing any of this.
