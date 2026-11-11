@@ -1,0 +1,708 @@
+{
+ "source": {
+  "file": "Sheep.exe",
+  "md5": "385e7f952873d00e52ed31d16a7d5c61",
+  "module": "MINI"
+ },
+ "frame": {
+  "width": 40,
+  "height": 40,
+  "perRow": 16,
+  "count": 176
+ },
+ "sheet": {
+  "width": 640,
+  "height": 440,
+  "file": "sprites.png"
+ },
+ "transparentKey": [
+  [
+   0,
+   0,
+   255
+  ]
+ ],
+ "sounds": {
+  "108": "sounds/108.wav",
+  "109": "sounds/109.wav",
+  "110": "sounds/110.wav"
+ },
+ "cursor": {
+  "file": "cursor.png",
+  "hotspot": [
+   17,
+   17
+  ]
+ },
+ "icon": "icon.png",
+ "actions": [
+  {
+   "label": "???",
+   "state": 1
+  },
+  {
+   "label": "Run",
+   "state": 7
+  },
+  {
+   "label": "Walk",
+   "state": 11
+  },
+  {
+   "label": "Hand walk",
+   "state": 13
+  },
+  {
+   "label": "Beg",
+   "state": 15
+  },
+  {
+   "label": "Sleep",
+   "state": 17
+  },
+  {
+   "label": "Look Up",
+   "state": 20
+  },
+  {
+   "label": "???",
+   "state": 24
+  },
+  {
+   "label": "???",
+   "state": 30
+  },
+  {
+   "label": "Tinkle",
+   "state": 35
+  },
+  {
+   "label": "Yawn",
+   "state": 43
+  },
+  {
+   "label": "Baaaa",
+   "state": 45
+  },
+  {
+   "label": "Bug Eyes",
+   "state": 49
+  },
+  {
+   "label": "Charge",
+   "state": 51
+  },
+  {
+   "label": "Eat Flowers",
+   "state": 53
+  },
+  {
+   "label": "Stare",
+   "state": 58
+  },
+  {
+   "label": "Sneeze",
+   "state": 47
+  },
+  {
+   "label": "Flame Dive",
+   "state": 147
+  },
+  {
+   "label": "Look Up",
+   "state": 116
+  },
+  {
+   "label": "Rendezvous",
+   "state": 121
+  },
+  {
+   "label": "Chased",
+   "state": 126
+  },
+  {
+   "label": "Beam Up",
+   "state": 128
+  },
+  {
+   "label": "Bird from UFO",
+   "state": 135
+  },
+  {
+   "label": "Meet UFO",
+   "state": 142
+  },
+  {
+   "label": "Roll",
+   "state": 65
+  },
+  {
+   "label": "Blush",
+   "state": 62
+  },
+  {
+   "label": "Climb",
+   "state": 75
+  },
+  {
+   "label": "Fall",
+   "state": 96
+  },
+  {
+   "label": "Leap",
+   "state": 9
+  },
+  {
+   "label": "Die",
+   "state": 69
+  }
+ ],
+ "dialogs": {
+  "108": {
+   "caption": "Screen Mate Debug Window",
+   "rect": [
+    0,
+    0,
+    216,
+    134
+   ],
+   "font": [
+    9,
+    "ＭＳ Ｐゴシック"
+   ],
+   "items": [
+    {
+     "id": 1,
+     "class": "BUTTON",
+     "text": "OK",
+     "rect": [
+      172,
+      112,
+      42,
+      14
+     ],
+     "style": 1342242817
+    },
+    {
+     "id": 1002,
+     "class": "BUTTON",
+     "text": "???",
+     "rect": [
+      7,
+      7,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1003,
+     "class": "BUTTON",
+     "text": "Run",
+     "rect": [
+      7,
+      19,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1004,
+     "class": "BUTTON",
+     "text": "&Walk",
+     "rect": [
+      7,
+      31,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1005,
+     "class": "BUTTON",
+     "text": "Hand walk",
+     "rect": [
+      7,
+      43,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1006,
+     "class": "BUTTON",
+     "text": "Beg",
+     "rect": [
+      7,
+      55,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1007,
+     "class": "BUTTON",
+     "text": "Sleep",
+     "rect": [
+      7,
+      67,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1008,
+     "class": "BUTTON",
+     "text": "Look Up",
+     "rect": [
+      7,
+      79,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1009,
+     "class": "BUTTON",
+     "text": "???",
+     "rect": [
+      7,
+      91,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1010,
+     "class": "BUTTON",
+     "text": "???",
+     "rect": [
+      7,
+      103,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1011,
+     "class": "BUTTON",
+     "text": "Tinkle",
+     "rect": [
+      7,
+      116,
+      45,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1012,
+     "class": "BUTTON",
+     "text": "Yawn",
+     "rect": [
+      54,
+      7,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1013,
+     "class": "BUTTON",
+     "text": "Baaaa",
+     "rect": [
+      54,
+      19,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1014,
+     "class": "BUTTON",
+     "text": "Bug Eyes",
+     "rect": [
+      54,
+      31,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1015,
+     "class": "BUTTON",
+     "text": "Charge",
+     "rect": [
+      54,
+      43,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1016,
+     "class": "BUTTON",
+     "text": "Eat Flowers",
+     "rect": [
+      54,
+      55,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1017,
+     "class": "BUTTON",
+     "text": "Stare",
+     "rect": [
+      54,
+      67,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1018,
+     "class": "BUTTON",
+     "text": "Sneeze",
+     "rect": [
+      54,
+      79,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1019,
+     "class": "BUTTON",
+     "text": "Flame Dive",
+     "rect": [
+      54,
+      91,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1020,
+     "class": "BUTTON",
+     "text": "Look Up",
+     "rect": [
+      54,
+      103,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1021,
+     "class": "BUTTON",
+     "text": "Rendezvous",
+     "rect": [
+      54,
+      116,
+      52,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1022,
+     "class": "BUTTON",
+     "text": "Chased",
+     "rect": [
+      114,
+      7,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1023,
+     "class": "BUTTON",
+     "text": "Beam Up",
+     "rect": [
+      114,
+      19,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1024,
+     "class": "BUTTON",
+     "text": "Bird from UFO",
+     "rect": [
+      114,
+      31,
+      57,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1025,
+     "class": "BUTTON",
+     "text": "Meet UFO",
+     "rect": [
+      114,
+      43,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1026,
+     "class": "BUTTON",
+     "text": "&Roll",
+     "rect": [
+      114,
+      55,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1027,
+     "class": "BUTTON",
+     "text": "&Blush",
+     "rect": [
+      114,
+      67,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1028,
+     "class": "BUTTON",
+     "text": "&Climb",
+     "rect": [
+      114,
+      79,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1029,
+     "class": "BUTTON",
+     "text": "Fall",
+     "rect": [
+      114,
+      91,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1030,
+     "class": "BUTTON",
+     "text": "&Leap",
+     "rect": [
+      114,
+      103,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1031,
+     "class": "BUTTON",
+     "text": "&Die",
+     "rect": [
+      114,
+      116,
+      50,
+      10
+     ],
+     "style": 1342177289
+    },
+    {
+     "id": 1032,
+     "class": "BUTTON",
+     "text": "Up",
+     "rect": [
+      186,
+      7,
+      15,
+      14
+     ],
+     "style": 1342242816
+    },
+    {
+     "id": 1033,
+     "class": "BUTTON",
+     "text": "Dn",
+     "rect": [
+      186,
+      41,
+      15,
+      14
+     ],
+     "style": 1342242816
+    },
+    {
+     "id": 1034,
+     "class": "BUTTON",
+     "text": "<<",
+     "rect": [
+      176,
+      24,
+      15,
+      14
+     ],
+     "style": 1342242816
+    },
+    {
+     "id": 1035,
+     "class": "BUTTON",
+     "text": ">>",
+     "rect": [
+      196,
+      24,
+      15,
+      14
+     ],
+     "style": 1342242816
+    }
+   ]
+  },
+  "107": {
+   "caption": "Screen Mate 1.0",
+   "rect": [
+    0,
+    0,
+    149,
+    83
+   ],
+   "font": [
+    9,
+    "ＭＳ Ｐゴシック"
+   ],
+   "items": [
+    {
+     "id": 1,
+     "class": "BUTTON",
+     "text": "OK",
+     "rect": [
+      92,
+      7,
+      50,
+      14
+     ],
+     "style": 1342242817
+    },
+    {
+     "id": 2,
+     "class": "BUTTON",
+     "text": "Cancel",
+     "rect": [
+      92,
+      25,
+      50,
+      14
+     ],
+     "style": 1342242816
+    },
+    {
+     "id": 4,
+     "class": "BUTTON",
+     "text": "&Help",
+     "rect": [
+      92,
+      43,
+      50,
+      14
+     ],
+     "style": 1342242816
+    },
+    {
+     "id": 3,
+     "class": "BUTTON",
+     "text": "&Remove",
+     "rect": [
+      92,
+      61,
+      50,
+      14
+     ],
+     "style": 1342242816
+    },
+    {
+     "id": 1002,
+     "class": "BUTTON",
+     "text": "&Sound",
+     "rect": [
+      7,
+      7,
+      57,
+      10
+     ],
+     "style": 1342242819
+    },
+    {
+     "id": 1001,
+     "class": "BUTTON",
+     "text": "&Alarm",
+     "rect": [
+      7,
+      23,
+      69,
+      10
+     ],
+     "style": 1342242819
+    },
+    {
+     "id": 1003,
+     "class": "BUTTON",
+     "text": "&No Sleep",
+     "rect": [
+      7,
+      39,
+      57,
+      10
+     ],
+     "style": 1342242819
+    },
+    {
+     "id": 1004,
+     "class": "BUTTON",
+     "text": "&G-Force",
+     "rect": [
+      7,
+      56,
+      74,
+      10
+     ],
+     "style": 1342242819
+    }
+   ]
+  }
+ }
+}

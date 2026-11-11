@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sheep.exe.js lite</title>
+<style>
+  body { margin: 0; min-height: 100vh; background: #fffef5; font: 15px/1.5 Georgia, serif; color: #222; padding: 32px 16px; }
+  main { max-width: 640px; margin: 0 auto; }
+  img { max-width: 100%; display: block; image-rendering: pixelated; border: 1px solid #ccc; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Lite build</h1>
+  <p>This page loads the ES module build without inlined assets. It fetches <code>sprites.png</code> and the WAV files from <code>../assets/</code>. It also uses a scale of 2.</p>
+  <img src="../assets/sprites.png" alt="The extracted sprite sheet" width="640" height="440">
+</main>
+<script type="module">
+  import { Sheep } from "../dist/sheep.lite.mjs";
+  window.__lite = new Sheep({ assetsUrl: "../assets/", scale: 2, storageKey: false });
+</script>
+</body>
+</html>

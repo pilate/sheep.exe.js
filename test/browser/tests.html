@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>sheep.exe.js browser tests</title>
+<style>
+  body { margin: 0; width: 1000px; height: 700px; font: 14px sans-serif; }
+  #a { position: absolute; left: 100px; top: 300px; width: 400px; height: 100px; background: #ddd; }
+  #b { position: absolute; left: 600px; top: 200px; width: 200px; height: 60px; background: #ccc; }
+  #f { position: fixed; left: 50px; top: 500px; width: 300px; height: 50px; background: #bbb; }
+  #narrow { position: absolute; left: 850px; top: 100px; width: 20px; height: 20px; }
+</style>
+</head>
+<body>
+<div id="a" data-sheep-window></div>
+<div id="b" data-sheep-window></div>
+<div id="f" data-sheep-window></div>
+<div id="narrow" data-sheep-window></div>
+<pre id="results"></pre>
+<script type="module">
+import { Sheep } from "/dist/sheep.mjs";
+
+const results = [];
+const eq = (got, want, msg = "") => {
+  if (JSON.stringify(got) !== JSON.stringify(want))
+    throw new Error(`${msg} expected ${JSON.stringify(want)}, got ${JSON.stringify(got)}`);
+};
+const ok = (v, msg) => {
+  if (!v) throw new Error(msg);
+};
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const canvases = () => [...document.querySelectorAll("canvas")];
+const mainCanvas = () => canvases().at(-1); // the sub actor is appended first
+const opaque = (cv) => {
+  const d = cv.getContext("2d").getImageData(0, 0, cv.width, cv.height).data;
+  let n = 0;
+  for (let i = 3; i < d.length; i += 4) if (d[i]) n++;
+  return n;
+};
+const until = (s, cond, max = 3000) => {
+  for (let i = 0; i < max; i++) {
+    s.step();
+    if (cond(s.engine)) return i;
+  }
+  throw new Error("condition not reached");
+};
+const opts = (o = {}) => ({ autoStart: false, storageKey: false, ...o });
+
+async function test(name, fn) {
+  try {
+    await fn();
+    results.push(`ok ${name}`);
+  } catch (e) {
+    results.push(`not ok ${name}: ${e.message}`);
+  } finally {
+    Sheep.removeAll();
+    localStorage.clear();
+  }
+}
+
+await test("adds its nodes, ticks and cleans up", async () => {
+  const s = new Sheep(opts({ seed: 5 }));
+  await s.ready;
+  ok(document.querySelectorAll("[data-sheep-node]").length >= 6, "nodes");
+  for (let i = 0; i < 100; i++) s.step();
+  eq(mainCanvas().style.display, "block", "main visible");
+  eq(canvases()[0].style.display, "none", "sub hidden");
+  s.remove();
+  eq(canvases().length, 0, "canvases removed");
+  eq(Sheep.all.length, 0, "unregistered");
+});
+
+await test("second sheep is an other instance; sheep see each other", async () => {
+  const [a, b] = Sheep.spawn(2, opts());
+  await Promise.all([a.ready, b.ready]);
+  eq([a.engine.otherInstance, b.engine.otherInstance], [0, 1]);
+  a.engine.x = 10;
+  a.engine.y = 20;
+  a.engine.setMain(10, 20, 3);
+  eq(b.engine.host.peers().map((p) => [p.x, p.y]), [[10, 20]]);
+});
+
+await test("actions by label", async () => {
+  const s = new Sheep(opts());
+  await s.ready;
+  s.action("Flame Dive");
+  eq(s.state, 0x93);
+  s.action("bug eyes");
+  eq(s.state, 0x31);
+  let threw = false;
+  try {
+    s.action("moonwalk");
+  } catch {
+    threw = true;
+  }
+  ok(threw, "unknown action throws");
+});
+
+await test("settings dialog comes from DLGTEMPLATE 107 and persists", async () => {
+  const s = new Sheep(opts({ storageKey: "t" }));
+  await s.ready;
+  s.openSettings();
+  const dlg = document.querySelector(".sheepjs-dlg");
+  ok(dlg.textContent.includes("Screen Mate 1.0"), "caption");
+  const boxes = dlg.querySelectorAll("input[type=checkbox]");
+  eq(boxes.length, 4);
+  boxes[0].checked = true; // Sound
+  [...dlg.querySelectorAll("button")].find((b) => b.textContent === "OK").click();
+  eq(document.querySelector(".sheepjs-dlg"), null, "closed");
+  eq(s.settings.sound, true);
+  eq(JSON.parse(localStorage.getItem("t")).sound, true);
+  eq(new Sheep(opts({ storageKey: "t" })).settings.sound, true, "reloaded");
+});
+
+await test("debug dialog lists the 30 original actions", async () => {
+  const s = new Sheep(opts());
+  await s.ready;
+  s.openDebug();
+  const radios = document.querySelectorAll(".sheepjs-dlg input[type=radio]");
+  eq(radios.length, 30);
+  radios[17].click(); // Flame Dive
+  eq(s.state, 0x93);
+});
+
+await test("drag picks the sheep up and drops it", async () => {
+  const s = new Sheep(opts({ seed: 1 }));
+  await s.ready;
+  for (let i = 0; i < 3; i++) s.step(); // state 2 switches gravity on
+  const cv = mainCanvas();
+  const x0 = s.engine.x;
+  const ev = (type, x, y) =>
+    cv.dispatchEvent(new PointerEvent(type, { clientX: x, clientY: y, button: 0, pointerId: 7, bubbles: true }));
+  ev("pointerdown", 100, 100);
+  eq(s.state, 0x51, "dangling");
+  ev("pointermove", 130, 90);
+  eq(s.engine.x, x0 + 30, "moved");
+  ev("pointerup", 130, 90);
+  eq(s.state, 0x61, "falling");
+});
+
+await test("falls onto the top edge of a page element", async () => {
+  const s = new Sheep(opts());
+  await s.ready;
+  s.engine.gforce = 1;
+  s.engine.state = 0x61;
+  s.engine.x = 200;
+  s.engine.y = 0;
+  until(s, (e) => e.floor > 0 && e.state === 0xc);
+  eq(Math.round(mainCanvas().getBoundingClientRect().bottom), 300, "stands on #a");
+});
+
+await test("window list: fixed elements first, narrow ones skipped, scaled", async () => {
+  const s = new Sheep(opts({ scale: 2, windows: "[data-sheep-window]" }));
+  await s.ready;
+  const w = s.engine.host.enumWindows();
+  eq(w.length, 3, "#narrow skipped");
+  eq([w[0].left, w[0].top], [25, 250], "#f (fixed) first, halved");
+  eq([w[1].left, w[2].left], [300, 50], "then reverse document order");
+  eq(mainCanvas().style.width, "80px", "sprite scaled");
+});
+
+await test("one shared timer drives every sheep", async () => {
+  const [a, b] = Sheep.spawn(2, { storageKey: false, interval: 15 });
+  await Promise.all([a.ready, b.ready]);
+  let na = 0;
+  let nb = 0;
+  a.on("state", () => na++);
+  b.on("state", () => nb++);
+  await sleep(400);
+  ok(na > 0 && nb > 0, `both ticked (${na}, ${nb})`);
+  b.stop();
+  const frozen = JSON.stringify(b.engine.main);
+  await sleep(200);
+  eq(JSON.stringify(b.engine.main), frozen, "stopped sheep stays put");
+  ok(a.running && !b.running, "running flags");
+});
+
+await test("tractor beam and grid dissolve render", async () => {
+  const s = new Sheep(opts());
+  await s.ready;
+  s.action("Beam Up");
+  until(s, (e) => e.beamSub > 40);
+  const beams = [...document.querySelectorAll("[data-sheep-node]")].filter(
+    (n) => n.tagName === "DIV" && n.style.display === "block",
+  );
+  eq(beams.map((b) => b.style.mixBlendMode).sort(), ["lighten", "multiply"]);
+  s.action("Rendezvous");
+  until(s, (e) => e.gridFx === 1);
+  const sub = canvases()[0];
+  const before = opaque(sub);
+  until(s, (e) => e.gridFx === 5);
+  const after = opaque(sub);
+  ok(before > 0 && after < before / 2, `dissolving (${before} -> ${after} opaque pixels)`);
+});
+
+document.getElementById("results").textContent = results.join("\n") + "\nDONE";
+</script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+{
+ "description": "UFO episodes (Look Up, Rendezvous, Chased, Beam Up, Bird from UFO, Meet UFO, Flame Dive, Eat Flowers) run to completion",
+ "screen": [
+  1024,
+  768
+ ],
+ "tickBase": 4096,
+ "ticks": 6400,
+ "config": {
+  "sound": 1,
+  "gforce": 1
+ },
+ "windows": [
+  {
+   "hwnd": 513,
+   "title": "Notepad",
+   "rects": [
+    [
+     0,
+     200,
+     400,
+     700,
+     650
+    ]
+   ]
+  }
+ ],
+ "active": [
+  [
+   0,
+   513
+  ]
+ ],
+ "events": [
+  [
+   100,
+   "action",
+   18
+  ],
+  [
+   800,
+   "action",
+   19
+  ],
+  [
+   1500,
+   "action",
+   20
+  ],
+  [
+   2200,
+   "action",
+   21
+  ],
+  [
+   2900,
+   "action",
+   22
+  ],
+  [
+   3600,
+   "action",
+   23
+  ],
+  [
+   4300,
+   "action",
+   17
+  ],
+  [
+   5000,
+   "action",
+   14
+  ],
+  [
+   5700,
+   "action",
+   0
+  ]
+ ]
+}

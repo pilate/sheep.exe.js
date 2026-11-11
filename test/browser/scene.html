@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>sheep.exe.js scene</title>
+<style>
+  body { margin: 0; height: 100vh; background: #008080; font: 13px Tahoma, sans-serif; }
+  .w { position: absolute; background: #c0c0c0; border: 2px solid; border-color: #fff #000 #000 #fff; }
+  .w b { display: block; background: #000080; color: #fff; padding: 2px 6px; }
+</style>
+</head>
+<body>
+<div class="w" data-sheep-window style="left:80px;top:120px;width:360px;height:160px"><b>Notepad</b></div>
+<div class="w" data-sheep-window style="left:520px;top:300px;width:300px;height:120px"><b>Clock</b></div>
+<div class="w" data-sheep-window style="left:240px;top:430px;width:300px;height:100px"><b>Write</b></div>
+<script type="module">
+// Drives one sheep into a named moment, for screenshots (scripts/browser.mjs).
+import { Sheep } from "/dist/sheep.mjs";
+const scene = new URLSearchParams(location.search).get("scene") ?? "walk";
+const s = new Sheep({ autoStart: false, storageKey: false, seed: 7, windows: "[data-sheep-window]" });
+await s.ready;
+const until = (action, cond) => {
+  if (action) s.action(action);
+  for (let i = 0; i < 4000 && !cond(s.engine); i++) s.step();
+};
+({
+  walk: () => until(null, (e) => e.floor > 0 && (e.state === 0xc || e.state === 8)),
+  beam: () => until("Beam Up", (e) => e.beamSub > 60),
+  dissolve: () => until("Rendezvous", (e) => e.gridFx >= 3),
+  flame: () => until("Flame Dive", (e) => e.state === 0x94 && e.count > 20),
+  bird: () => until("Bird from UFO", (e) => e.beamMain > 60),
+  settings: () => (until(null, (e) => e.floor > 0 && e.state === 0xc), s.openSettings()),
+  debug: () => (until(null, (e) => e.floor > 0 && e.state === 0xc), s.openDebug()),
+})[scene]();
+document.title = "ready";
+</script>
+</body>
+</html>

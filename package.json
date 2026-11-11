@@ -1,0 +1,42 @@
+{
+  "name": "sheep-exe-js",
+  "version": "1.0.0",
+  "description": "The classic Sheep.exe (Screen Mate Poo / Stray Sheep) desktop pet, ported from the original Win16 binary to a JavaScript library for web pages.",
+  "type": "module",
+  "module": "dist/sheep.mjs",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/sheep.mjs"
+    },
+    "./lite": {
+      "types": "./dist/types/lite.d.ts",
+      "import": "./dist/sheep.lite.mjs"
+    },
+    "./script": "./dist/sheep.js"
+  },
+  "files": [
+    "dist",
+    "assets",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22.18"
+  },
+  "scripts": {
+    "build": "node --disable-warning=ExperimentalWarning scripts/build.mjs",
+    "test": "node --test test/*.test.ts",
+    "typecheck": "tsc -p .",
+    "test:browser": "docker run --rm -v \"$PWD\":/work sheepjs-browser node scripts/browser.mjs",
+    "extract": "docker run --rm -v \"$PWD\":/work -w /work python:3.12-slim python3 -I tools/extract.py Sheep.exe .",
+    "re:images": "docker build -t sheepjs-tools docker/tools && docker build -t sheepjs-ghidra docker/ghidra && docker build -t sheepjs-browser docker/browser",
+    "re:disasm": "docker run --rm -v \"$PWD\":/work sheepjs-tools tools/disasm.py Sheep.exe re/code.asm",
+    "re:decompile": "docker run --rm -v \"$PWD\":/work sheepjs-ghidra /work/build/ghidra-proj sheep -import /work/Sheep.exe -overwrite -scriptPath /work/tools/ghidra -preScript PatchChkstk.java -postScript DecompileAll.java /work/re/decompiled.c",
+    "re:traces": "for f in test/scenarios/*.json; do docker run --rm -v \"$PWD\":/work sheepjs-tools tools/emulate.py Sheep.exe $f test/traces/$(basename $f); done"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "5.8.3"
+  }
+}

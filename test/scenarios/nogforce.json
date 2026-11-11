@@ -1,0 +1,9 @@
+{
+  "description": "G-Force off: the sheep stays on the bottom of the screen",
+  "screen": [640, 480],
+  "tickBase": 4242,
+  "ticks": 4000,
+  "config": { "sound": 0, "gforce": 0 },
+  "windows": [{ "hwnd": 513, "title": "Notepad", "rects": [[0, 50, 200, 400, 380]] }],
+  "active": [[0, 513]]
+}

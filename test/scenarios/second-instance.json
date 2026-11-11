@@ -1,0 +1,35 @@
+{
+ "description": "Second instance (no UFO episodes)",
+ "screen": [
+  800,
+  600
+ ],
+ "tickBase": 55555,
+ "ticks": 4000,
+ "config": {
+  "sound": 1,
+  "gforce": 1
+ },
+ "otherInstance": 1,
+ "windows": [
+  {
+   "hwnd": 513,
+   "title": "Notepad",
+   "rects": [
+    [
+     0,
+     150,
+     350,
+     650,
+     550
+    ]
+   ]
+  }
+ ],
+ "active": [
+  [
+   0,
+   513
+  ]
+ ]
+}

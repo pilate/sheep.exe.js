@@ -1,0 +1,34 @@
+{
+ "description": "G-Force off with a tall window beside the floor: walk to it and climb its side",
+ "screen": [
+  800,
+  600
+ ],
+ "tickBase": 1,
+ "ticks": 8000,
+ "config": {
+  "sound": 1,
+  "gforce": 0
+ },
+ "windows": [
+  {
+   "hwnd": 513,
+   "title": "Notepad",
+   "rects": [
+    [
+     0,
+     200,
+     250,
+     420,
+     720
+    ]
+   ]
+  }
+ ],
+ "active": [
+  [
+   0,
+   513
+  ]
+ ]
+}

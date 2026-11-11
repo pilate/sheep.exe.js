@@ -1,0 +1,9 @@
+{
+  "description": "Empty desktop, G-Force on, no active window",
+  "screen": [800, 600],
+  "tickBase": 12345,
+  "ticks": 3000,
+  "config": { "sound": 1, "gforce": 1 },
+  "windows": [],
+  "active": []
+}

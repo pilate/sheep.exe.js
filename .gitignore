@@ -1,0 +1,11 @@
+node_modules/
+build/
+dist/
+# Derived from the user's copy of Sheep.exe — regenerate with `npm run extract`
+# (remove these lines if you are entitled to redistribute the original assets)
+# assets/
+# src/generated/
+__pycache__/
+
+# The original binary is not redistributed; place your own copy here
+/Sheep.exe

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>sheep.exe.js demo</title>
+<link rel="icon" href="../assets/icon.png">
+<style>
+  :root { --face: #c0c0c0; --hi: #fff; --lo: #808080; --dk: #000; --title: #000080; --desk: #008080; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; min-height: 100%; }
+  body {
+    background: var(--desk);
+    font: 13px/1.4 Tahoma, "MS Sans Serif", "Segoe UI", sans-serif;
+    color: #000;
+    min-height: 100vh;
+    padding: 24px 16px 120px;
+  }
+  .win {
+    background: var(--face);
+    border: 2px solid; border-color: var(--hi) var(--dk) var(--dk) var(--hi);
+    box-shadow: inset -1px -1px var(--lo), inset 1px 1px #dfdfdf;
+    max-width: 640px; margin: 0 auto 32px;
+  }
+  .win > h2 {
+    margin: 2px; padding: 2px 6px; background: var(--title); color: #fff;
+    font-size: 13px; font-weight: bold; letter-spacing: .02em;
+  }
+  .win .body { padding: 12px 14px; }
+  .row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 8px 0; }
+  button, select {
+    font: inherit; background: var(--face); color: #000; padding: 3px 10px;
+    border: 2px solid; border-color: var(--hi) var(--dk) var(--dk) var(--hi);
+  }
+  button:active { border-color: var(--dk) var(--hi) var(--hi) var(--dk); }
+  code, pre { font: 12px/1.4 "Courier New", monospace; }
+  pre { background: #fff; border: 2px solid; border-color: var(--lo) var(--hi) var(--hi) var(--lo); padding: 8px; overflow-x: auto; margin: 8px 0; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto 32px; }
+  .grid .win { margin: 0; }
+  .status { font-family: "Courier New", monospace; font-size: 12px; }
+  label { display: inline-flex; gap: 4px; align-items: center; }
+  @media (max-width: 480px) { body { padding: 16px 12px 120px; } }
+</style>
+</head>
+<body>
+  <section class="win" data-sheep-window>
+    <h2>sheep.exe.js</h2>
+    <div class="body">
+      <p>The 1995 desktop sheep (<i>Screen Mate Poo</i>, a.k.a. Stray Sheep), running from a TypeScript port of the
+        original Win16 <code>Sheep.exe</code>. Its sprites, sounds and behaviour tables were extracted from the binary.</p>
+      <p>It walks on page elements the way the original walked on window title bars. Drag it with either mouse button.
+        Double-click it for the settings dialog, <b>Shift+Ctrl</b>+double-click for the debug dialog, and
+        double-right-click to remove it.</p>
+      <div class="row">
+        <button id="spawn" type="button">Add a sheep</button>
+        <button id="clear" type="button">Remove all</button>
+        <label><input id="sound" type="checkbox"> Sound</label>
+        <label><input id="gforce" type="checkbox" checked> G-Force</label>
+      </div>
+      <div class="row">
+        <select id="action" aria-label="Action"></select>
+        <button id="go" type="button">Do it</button>
+      </div>
+      <div class="row status" id="status">loading…</div>
+    </div>
+  </section>
+
+  <div class="grid">
+    <section class="win" data-sheep-window>
+      <h2>Notepad - README.TXT</h2>
+      <div class="body">
+        <pre>&lt;script src="sheep.js"
+  data-autostart&gt;&lt;/script&gt;</pre>
+        <p>That's all it takes. Assets are inlined.</p>
+      </div>
+    </section>
+    <section class="win" data-sheep-window>
+      <h2>Clock</h2>
+      <div class="body" style="text-align:center;font-size:28px;font-family:'Courier New',monospace" id="clock">--:--</div>
+    </section>
+    <section class="win" data-sheep-window>
+      <h2>Program Manager</h2>
+      <div class="body">
+        <pre>import { Sheep } from "sheep-exe-js";
+const s = new Sheep({ sound: true });
+s.action("Flame Dive");</pre>
+      </div>
+    </section>
+  </div>
+
+  <section class="win" data-sheep-window style="max-width:420px">
+    <h2>Scroll me</h2>
+    <div class="body">
+      <p>Scroll the page while a sheep stands on a window. If the window moves up, the sheep rides along. If it moves down or away, the sheep falls.</p>
+    </div>
+  </section>
+  <div style="height:60vh"></div>
+
+<script src="../dist/sheep.js"></script>
+<script>
+  const { Sheep, ACTIONS } = window.SheepExe;
+  const $ = (id) => document.getElementById(id);
+  const sel = $("action");
+  ACTIONS.forEach((a, i) => {
+    if (a.label === "???") return;
+    const o = document.createElement("option");
+    o.value = String(i);
+    o.textContent = a.label;
+    sel.append(o);
+  });
+  const opts = () => ({ sound: $("sound").checked, gforce: $("gforce").checked, storageKey: false });
+  const first = new Sheep(opts());
+  $("spawn").onclick = () => new Sheep(opts());
+  $("clear").onclick = () => Sheep.removeAll();
+  $("go").onclick = () => {
+    const s = Sheep.all[0] || new Sheep(opts());
+    s.action(ACTIONS[Number(sel.value)].state);
+  };
+  for (const id of ["sound", "gforce"]) $(id).onchange = () => Sheep.all.forEach((s) => s.configure(opts()));
+  setInterval(() => {
+    const d = new Date();
+    $("clock").textContent = d.toTimeString().slice(0, 5);
+    const all = Sheep.all;
+    $("status").textContent = all.length
+      ? all.map((s, i) => `#${i + 1} state 0x${s.state.toString(16)} @ ${s.engine.x},${s.engine.y}`).join("  ")
+      : "no sheep";
+  }, 250);
+  window.__first = first;
+</script>
+</body>
+</html>

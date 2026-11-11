@@ -1,0 +1,13 @@
+{
+  "description": "Three windows; the active window changes, one moves up then down, one closes",
+  "screen": [1024, 768],
+  "tickBase": 987654,
+  "ticks": 6000,
+  "config": { "sound": 1, "gforce": 1 },
+  "windows": [
+    { "hwnd": 513, "title": "Notepad", "rects": [[0, 100, 300, 500, 600], [2500, 100, 250, 500, 550], [4000, 100, 320, 500, 620]] },
+    { "hwnd": 514, "title": "Clock", "rects": [[0, 600, 450, 900, 700]] },
+    { "hwnd": 515, "title": "Write", "rects": [[0, 380, 200, 760, 420]], "until": 3500 }
+  ],
+  "active": [[0, 513], [1500, 514], [3000, 515], [4500, 0], [5000, 513]]
+}
